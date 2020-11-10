@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using blog.Models;
 using blog.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Renci.SshNet.Security.Cryptography;
 
 namespace blog.Controllers
 {
@@ -10,34 +14,36 @@ namespace blog.Controllers
     [Route("api/articles")]
     public class ArticleController : ControllerBase
     {
-        private readonly ArticleService _articleService;
-        public ArticleController(ArticleService articleService)
+
+        private ArticleContext _context;
+        public ArticleController(ArticleContext context)
         {
-            _articleService = articleService;
+            _context = context;
         }
-        
+
         [HttpGet]
-        public List<Article> getAll()
+        public  IActionResult getAll()
         {
-            return _articleService.getAllArticles();
+
+            var list =  _context.Article.ToList();
+            return new JsonResult(list) { 
+            StatusCode=200
+            };
         }
 
-        [HttpPut("{id}")]
-        public Article UpdateArticle(long id, Article art)
-        {
-           return _articleService.UpdateArticle(id, art);
-        }
+        //[HttpGet("{id}")]
+        //public Article getArticleById(long id)
+        //{
+        //}
 
-        [HttpGet("{id}")]
-        public Article getArticleById(long id)
-        {
-            return _articleService.GetArticleByd(id);
-        }
+        //[HttpPut("{id}")]
+        //public Article UpdateArticle(long id, Article art)
+        //{
+        //}
 
-        [HttpDelete("{id}")]
-        public bool DeleteArticle(long id)
-        {
-            return _articleService.DeleteArticle(id);
-        }
+        //[HttpDelete("{id}")]
+        //public bool DeleteArticle(long id)
+        //{
+        //}
     }
 }
