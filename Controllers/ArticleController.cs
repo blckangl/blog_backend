@@ -40,15 +40,12 @@ namespace blog.Controllers
                                         .Where(x => x.ArticleId == id)
                                         .FirstOrDefaultAsync();
 
-            
+
 
             return new JsonResult(art);
         }
 
-        //[HttpPut("{id}")]
-        //public Article UpdateArticle(long id, Article art)
-        //{
-        //}
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArticle(int id)
@@ -56,10 +53,36 @@ namespace blog.Controllers
             Article art = await _context.Article
                                         .Where(x => x.ArticleId == id)
                                         .FirstOrDefaultAsync();
-           var result = _context.Article.Remove(art);
+            var result = _context.Article.Remove(art);
             _context.SaveChanges();
 
-            return new JsonResult("Success");
+            return new JsonResult("") { StatusCode = 202 };
+
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateArticle(int id, Article art)
+        {
+            var article = _context.Article
+                                     .FirstOrDefault(x => x.ArticleId == id);
+
+            article.Text = art.Text;
+            article.Name = art.Name;
+            article.Image = art.Image;
+
+            _context.SaveChanges();
+
+            return new JsonResult(article) { StatusCode = 201 };
+
+        }
+
+        [HttpPost()]
+        public IActionResult AddArticle(Article art)
+        {
+            _context.Article.Add(art);
+            _context.SaveChanges();
+
+            return new JsonResult(art);
         }
     }
 }

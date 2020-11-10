@@ -26,6 +26,7 @@ namespace blog
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddDbContext<ArticleContext>();
             services.AddControllers();
         }
@@ -39,6 +40,7 @@ namespace blog
             }
 
             //app.UseHttpsRedirection();
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()) ;
 
             app.UseRouting();
 
