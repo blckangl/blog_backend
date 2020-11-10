@@ -9,7 +9,7 @@ namespace blog.Services
 {
     public class ArticleContext : DbContext
     {
-        public DbSet<Article> Article;
+        public DbSet<Article> Article { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

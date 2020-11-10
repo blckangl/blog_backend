@@ -33,7 +33,7 @@ namespace blog
             {
                 context.Database.EnsureCreated();
 
-                context.Article.Add(new Article() { Name = "test", Image = "aze", Text = "azd" });
+                //context.Article.Add(new Article() { Name = "test", Image = "aze", Text = "azd" });
                 context.SaveChanges();
             }
 
